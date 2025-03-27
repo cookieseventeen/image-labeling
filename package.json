@@ -1,0 +1,33 @@
+{
+  "name": "image-labeling",
+  "version": "0.0.0",
+  "description": "A comprehensive package for tagging images.",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "TaqBostan",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup --dts"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.2",
+    "typescript": "^5.5.4"
+  },
+  "keywords": [
+    "labeling",
+    "annotation",
+    "tag",
+    "image"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaqBostan/image-labeling.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "bugs": {
+    "url": "https://github.com/TaqBostan/image-labeling/issues"
+  }
+}
