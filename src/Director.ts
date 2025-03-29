@@ -5,7 +5,6 @@ import RectangleBuilder from "./builders/RectangleBuilder";
 import CircleBuilder from "./builders/CircleBuilder";
 import EllipseBuilder from "./builders/EllipseBuilder";
 import { DotBuilder } from "./builders/DotBuilder";
-import '../base/helper';
 
 export class Director {
   static instance?: Director;
