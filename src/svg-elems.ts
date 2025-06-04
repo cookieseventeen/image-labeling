@@ -93,6 +93,12 @@ export class SVGEl {
         this.events.filter(c => c.event === event).forEach(c => {
             this.node.removeEventListener(c.event, c.cb);
         });
+        this.events = this.events.filter(c => c.event !== event);
+        return this;
+    }
+    offAll(){
+        this.events?.forEach(c => this.node.removeEventListener(c.event, c.cb));
+        this.events = [];
         return this;
     }
     opacity(o: number){
@@ -301,3 +307,4 @@ function RoundElY(this: SVGEl, y?: number): any {
 function roundIncrement(this: CircleEl | EllipseEl, d: [x: number, y: number]) {
     this.x(this.x() + d[0]).y(this.y() + d[1]);
 }
+
