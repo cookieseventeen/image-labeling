@@ -87,7 +87,10 @@ export abstract class ShapeBuilder<T extends Shape> {
   removeElement() {
     let elem = this.element!;
     [elem, elem.shadow, this.movePath, elem.categoriesPlain, elem.categoriesRect, elem.connector, ...elem.discs, ...this.rotateArr]
-      .forEach(el => el?.remove());
+      .forEach(el => {
+        (el as any)?.offAll?.();
+        (el as any)?.remove();
+      });
     if (this.drawing) this.createElement(this.newShape());
   }
 

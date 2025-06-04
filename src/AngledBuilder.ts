@@ -87,3 +87,4 @@ export abstract class AngledBuilder<T extends AngledShape> extends ShapeBuilder<
 
 	processShape() { }
 }
+

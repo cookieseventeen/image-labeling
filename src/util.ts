@@ -36,3 +36,4 @@ export default class Util {
     else return color;
   }
 }
+
