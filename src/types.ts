@@ -29,7 +29,12 @@ export abstract class Shape {
   abstract output(ratio: number): Shape;
   abstract centerChanged(newCenter: ArrayXY): void;
 
-  constructor(public categories: string[] = [], public phi: number = 0, public color?: string) {
+  constructor(
+    public categories: string[] = [],
+    public phi: number = 0,
+    public color?: string,
+    public name?: string
+  ) {
     this.id = 0;
   }
 
@@ -39,6 +44,7 @@ export abstract class Shape {
     let svgBox = svg.node.getBoundingClientRect();
     obj.id = this.id;
     if (this.color) obj.color = this.color;
+    if (this.name) obj.name = this.name;
     obj.phi = Math.round(this.phi);
     obj.getCenterWithOffset = () => ({ X: center[0] + svgBox.x, Y: center[1] + svgBox.y })
     return obj;
@@ -55,8 +61,13 @@ export abstract class Shape {
 export class Dot extends Shape {
   type: string = 'dot';
 
-  constructor(public position: ArrayXY = [-100, -100], public categories: string[] = [], public color?: string) {
-    super(categories, 0, color);
+  constructor(
+    public position: ArrayXY = [-100, -100],
+    public categories: string[] = [],
+    public color?: string,
+    public name?: string
+  ) {
+    super(categories, 0, color, name);
   }
 
   labelPosition(): ArrayXY {
@@ -69,7 +80,12 @@ export class Dot extends Shape {
     this.position = [this.position[0] * factor, this.position[1] * factor];
   }
   output(ratio: number) {
-    return new Dot([Math.round(this.position[0] / ratio), Math.round(this.position[1] / ratio)], this.categories);
+    return new Dot(
+      [Math.round(this.position[0] / ratio), Math.round(this.position[1] / ratio)],
+      this.categories,
+      this.color,
+      this.name
+    );
   }
   centerChanged(newPos: ArrayXY): void {
     this.position = newPos;
@@ -89,8 +105,13 @@ export interface IlElementExtra {
 export type ElementWithExtra = SVGEl & IlElementExtra;
 
 export abstract class AngledShape extends Shape {
-  constructor(public points: ArrayXY[] = [], public categories: string[] = [], public color?: string) {
-    super(categories, 0, color);
+  constructor(
+    public points: ArrayXY[] = [],
+    public categories: string[] = [],
+    public color?: string,
+    public name?: string
+  ) {
+    super(categories, 0, color, name);
   }
 
   labelPosition(): ArrayXY {
@@ -154,20 +175,36 @@ export enum ActType{
 export class Rectangle extends AngledShape {
   type: string = 'rectangle';
   output(ratio: number) {
-    return new Rectangle(this.outPoints(ratio), this.categories);
+    return new Rectangle(
+      this.outPoints(ratio),
+      this.categories,
+      this.color,
+      this.name
+    );
   }
 }
 
 export class Polygon extends AngledShape {
   type: string = 'polygon';
   output(ratio: number) {
-    return new Polygon(this.outPoints(ratio), this.categories);
+    return new Polygon(
+      this.outPoints(ratio),
+      this.categories,
+      this.color,
+      this.name
+    );
   }
 }
 
 export abstract class RoundShape extends Shape {
-  constructor(public centre: ArrayXY = [0, 0], public categories: string[] = [], public phi: number = 0, public color?: string) {
-    super(categories, phi, color);
+  constructor(
+    public centre: ArrayXY = [0, 0],
+    public categories: string[] = [],
+    public phi: number = 0,
+    public color?: string,
+    public name?: string
+  ) {
+    super(categories, phi, color, name);
   }
   abstract get width(): number;
   abstract set width(w);
@@ -183,8 +220,14 @@ export abstract class RoundShape extends Shape {
 
 export class Circle extends RoundShape {
   type: string = 'circle';
-  constructor(public centre: ArrayXY = [0, 0], public radius: number = 0, public categories: string[] = [], public color?: string) {
-    super(centre, categories, 0, color);
+  constructor(
+    public centre: ArrayXY = [0, 0],
+    public radius: number = 0,
+    public categories: string[] = [],
+    public color?: string,
+    public name?: string
+  ) {
+    super(centre, categories, 0, color, name);
   }
   get width(): number { return 2 * this.radius; }
   set width(w: number) { this.radius = w / 2; }
@@ -199,14 +242,28 @@ export class Circle extends RoundShape {
     this.radius *= factor;
   }
   output = (ratio: number): Shape =>
-    new Circle([Math.round(this.centre[0] / ratio), Math.round(this.centre[1] / ratio)], Math.round(this.radius / ratio), this.categories);
+    new Circle(
+      [Math.round(this.centre[0] / ratio), Math.round(this.centre[1] / ratio)],
+      Math.round(this.radius / ratio),
+      this.categories,
+      this.color,
+      this.name
+    );
 
 }
 
 export class Ellipse extends RoundShape {
   type: string = 'ellipse';
-  constructor(public centre: ArrayXY = [0, 0], public radiusX: number = 0, public radiusY: number = 0, public categories: string[] = [], public phi: number = 0, public color?: string) {
-    super(centre, categories, phi, color);
+  constructor(
+    public centre: ArrayXY = [0, 0],
+    public radiusX: number = 0,
+    public radiusY: number = 0,
+    public categories: string[] = [],
+    public phi: number = 0,
+    public color?: string,
+    public name?: string
+  ) {
+    super(centre, categories, phi, color, name);
   }
   get width(): number { return 2 * this.radiusX; }
   set width(w: number) { this.radiusX = w / 2; }
@@ -221,6 +278,14 @@ export class Ellipse extends RoundShape {
     this.radiusY *= factor;
   }
   output = (ratio: number): Shape =>
-    new Ellipse([Math.round(this.centre[0] / ratio), Math.round(this.centre[1] / ratio)], Math.round(this.radiusX / ratio), Math.round(this.radiusY / ratio), this.categories);
+    new Ellipse(
+      [Math.round(this.centre[0] / ratio), Math.round(this.centre[1] / ratio)],
+      Math.round(this.radiusX / ratio),
+      Math.round(this.radiusY / ratio),
+      this.categories,
+      this.phi,
+      this.color,
+      this.name
+    );
 
 }
