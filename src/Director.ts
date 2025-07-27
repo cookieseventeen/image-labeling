@@ -40,6 +40,7 @@ export class Director {
   }
 
   stopEdit = (): void => this.builders.filter(b => b.element?.editing).forEach(b => b.stopEdit());
+  setMaxId = (val: number) => this.maxId = Math.max(this.maxId, val);
 
   edit(id: number): void {
     this.stopEdit();
@@ -62,7 +63,6 @@ export class Director {
   }
 
   plot(shapes: Shape[]): void {
-    this.maxId = Math.max(this.maxId, ...shapes.map(c => c.id));
     shapes.forEach(shape => {
       if(shape.id === 0) shape.id = ++this.maxId;
       this.getBuilder(shape).basePlotShape();
