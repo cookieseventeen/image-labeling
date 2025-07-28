@@ -49,17 +49,22 @@ export abstract class ShapeBuilder<T extends Shape> {
     let shape = this.shape!;
     this.plotShape();
     this.rotate();
-    this.setOptions(this.element!, shape.categories, shape.color);
+    this.setOptions(this.element!, shape.categories, shape.color, shape.name);
   }
 
   labeledStyle(element: ElementWithExtra, labeled: boolean, color?: string) {
     element.stroke({ color: color ? Util.removeOpacity(color) : (labeled ? Color.WhiteLine : Color.RedLine) });
   }
 
-  setOptions(element: ElementWithExtra, categories: string[], color?: string) {
+  setOptions(element: ElementWithExtra, categories: string[], color?: string ,name: string = '') {
     let labeled = categories.length > 0;
     this.labeledStyle(element, labeled, color);
     element.fill(color || Color.ShapeFill);
+
+    // 設置 name 屬性
+    if (name !== '') {
+      element.shape.name = name;
+    }
 
     if (this.sd.hb && this.canHB) {
       [element.shadow, ...element.discs].forEach(el => el.addClass('il-hid'));
@@ -210,7 +215,7 @@ export abstract class ShapeBuilder<T extends Shape> {
       }
       this.movePath?.plot(this.moveIcon(elem.shape.getCenter()));
     }
-    else this.setOptions(elem, elem.shape.categories, elem.shape.color);
+    else this.setOptions(elem, elem.shape.categories, elem.shape.color, elem.shape.name);
     this.rotate(elem);
   }
 
@@ -228,7 +233,7 @@ export abstract class ShapeBuilder<T extends Shape> {
     elem.discs?.forEach(_disc =>
       _disc.fill(Color.BlackDisc).radius(2).removeClass('seg-point').off('click').off('mousedown').off('mouseup')
     );
-    this.setOptions(elem, shape.categories, shape.color);
+    this.setOptions(elem, shape.categories, shape.color, shape.name);
   }
 
   edit(): void {

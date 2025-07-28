@@ -57,8 +57,8 @@ export class Director {
 
   getElement = (id: number) => this.elements.find(p => p.shape.id === id)!;
 
-  setOptions(element: ElementWithExtra, categories: string[], color?: string) {
-    this.getBuilder(element.shape).setOptions(element, categories, color);
+  setOptions(element: ElementWithExtra, categories: string[], color?: string, name: string = '') {
+    this.getBuilder(element.shape).setOptions(element, categories, color, name);
   }
 
   plot(shapes: Shape[]): void {
@@ -115,13 +115,16 @@ export class Director {
     }
   }
 
-  updateCategories(id: number, categories: string[], color?: string) {
+  updateCategories(id: number, categories: string[], color?: string , name: string = '') {
+    console.warn('updateCategories is deprecated, use setOptions instead');
+    alert('updateCategories is deprecated, use setOptions instead dsadasdas');
     let elem = this.getElement(id);
     if (!elem) return;
     elem.shape.categories = categories;
     if (color !== undefined) elem.shape.color = color;
+    if (name !== '') elem.shape.name = name;
     let builder = this.getBuilder(elem.shape);
-    if (!elem.editing) builder.setOptions(elem, categories, elem.shape.color);
+    if (!elem.editing) builder.setOptions(elem, categories, elem.shape.color, elem.shape.name);
   }
 
   removeById(id: number) {

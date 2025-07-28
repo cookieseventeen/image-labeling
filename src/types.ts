@@ -32,6 +32,8 @@ export abstract class Shape {
 
   constructor(public categories: string[] = [], public phi: number = 0, public color?: string, public name?: string) {
     this.id = 0;
+    this.name = '';
+    if (name) this.name = name;
   }
 
   getOutput(ratio: number, svg: SVGSVGEl): Shape {
@@ -42,7 +44,7 @@ export abstract class Shape {
     if (this.color) obj.color = this.color;
     if (this.name) obj.name = this.name;
     obj.phi = Math.round(this.phi);
-    obj.getCenterWithOffset = () => ({ X: center[0] + svgBox.x, Y: center[1] + svgBox.y })
+    obj.getCenterWithOffset = () => ({ X: center[0] + svgBox.x, Y: center[1] + svgBox.y });
     return obj;
   }
 
@@ -75,7 +77,7 @@ export class Dot extends Shape {
     this.position = [this.position[0] * factor, this.position[1] * factor];
   }
   output(ratio: number) {
-    return new Dot([Math.round(this.position[0] / ratio), Math.round(this.position[1] / ratio)], this.categories);
+    return new Dot([Math.round(this.position[0] / ratio), Math.round(this.position[1] / ratio)], this.categories, this.color, this.name);
   }
   centerChanged(newPos: ArrayXY): void {
     this.position = newPos;
@@ -166,14 +168,14 @@ export enum ActType {
 export class Rectangle extends AngledShape {
   type: string = 'rectangle';
   output(ratio: number) {
-    return new Rectangle(this.outPoints(ratio), this.categories);
+    return new Rectangle(this.outPoints(ratio), this.categories, this.color, this.name);
   }
 }
 
 export class Polygon extends AngledShape {
   type: string = 'polygon';
   output(ratio: number) {
-    return new Polygon(this.outPoints(ratio), this.categories);
+    return new Polygon(this.outPoints(ratio), this.categories, this.color, this.name);
   }
 }
 
@@ -218,7 +220,7 @@ export class Circle extends RoundShape {
     this.radius *= factor;
   }
   output = (ratio: number): Shape =>
-    new Circle([Math.round(this.centre[0] / ratio), Math.round(this.centre[1] / ratio)], Math.round(this.radius / ratio), this.categories);
+    new Circle([Math.round(this.centre[0] / ratio), Math.round(this.centre[1] / ratio)], Math.round(this.radius / ratio), this.categories, this.color, this.name);
 
 }
 
@@ -247,6 +249,6 @@ export class Ellipse extends RoundShape {
     this.radiusY *= factor;
   }
   output = (ratio: number): Shape =>
-    new Ellipse([Math.round(this.centre[0] / ratio), Math.round(this.centre[1] / ratio)], Math.round(this.radiusX / ratio), Math.round(this.radiusY / ratio), this.categories);
+    new Ellipse([Math.round(this.centre[0] / ratio), Math.round(this.centre[1] / ratio)], Math.round(this.radiusX / ratio), Math.round(this.radiusY / ratio), this.categories, this.phi, this.color, this.name);
 
 }

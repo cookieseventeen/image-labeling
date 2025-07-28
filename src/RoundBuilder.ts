@@ -171,6 +171,6 @@ export abstract class RoundBuilder<T extends RoundShape> extends ShapeBuilder<T>
     });
     ellipse.discs = [];
     ellipse.connector!.remove();
-    this.setOptions(ellipse, shape.categories, shape.color);
+    this.setOptions(ellipse, shape.categories, shape.color, shape.name);
   }
 }
