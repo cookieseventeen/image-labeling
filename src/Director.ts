@@ -18,15 +18,15 @@ export class Director {
   winEv!: { keydown: (e: KeyboardEvent) => false | void; keyup: (e: KeyboardEvent) => void; blur: () => void; };
 
   constructor(public svg: SVGSVGEl, public container: HTMLDivElement) {
-    let onEdited = (shape: Shape) => this.raise(ActType.Edited, shape), enlist = (shape: Shape) => this.enlist(shape, true);
-    let params: [(shape: Shape) => void, (shape: Shape) => void] = [onEdited, enlist]
-    this.builders = [
-      new PolygonBuilder(...params),
-      new RectangleBuilder(...params),
-      new CircleBuilder(...params),
-      new EllipseBuilder(...params),
-      new DotBuilder(...params)
-    ];
+      let onEdited = (shape: Shape) => this.raise(ActType.Edited, shape), enlist = (shape: Shape) => this.enlist(shape, true);
+      let params: [(shape: Shape) => void, (shape: Shape) => void] = [onEdited, enlist]
+      this.builders = [
+        new PolygonBuilder(...params),
+        new RectangleBuilder(...params),
+        new CircleBuilder(...params),
+        new EllipseBuilder(...params),
+        new DotBuilder(...params)
+      ];
   }
 
   raise(type: ActType, shape: Shape) {
@@ -116,8 +116,6 @@ export class Director {
   }
 
   updateCategories(id: number, categories: string[], color?: string , name: string = '') {
-    console.warn('updateCategories is deprecated, use setOptions instead');
-    alert('updateCategories is deprecated, use setOptions instead dsadasdas');
     let elem = this.getElement(id);
     if (!elem) return;
     elem.shape.categories = categories;
