@@ -8,7 +8,9 @@
   "author": "TaqBostan",
   "license": "MIT",
   "scripts": {
-    "build": "tsup --dts"
+    "build": "tsup --dts",
+    "watch": "tsup --dts --watch",
+    "pack": "npm run build && npm pack"
   },
   "devDependencies": {
     "tsup": "^8.0.2",
