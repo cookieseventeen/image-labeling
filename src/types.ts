@@ -12,7 +12,9 @@ export type StaticData = {
   /** Stroke and discs can be hidden when not in edit/draw mode */
   hb: boolean | undefined,
   shortcut: Shortcut | undefined,
-  categoryOpt: { vertical: 'top' | 'middle' | 'bottom' }
+  categoryOpt: { vertical: 'top' | 'middle' | 'bottom' },
+  /** Control whether to show label text */
+  showLabels?: boolean
 }
 
 export type Shortcut = {

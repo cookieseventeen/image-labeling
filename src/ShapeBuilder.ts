@@ -61,6 +61,8 @@ export abstract class ShapeBuilder<T extends Shape> {
     this.labeledStyle(element, labeled, color);
     element.fill(color || Color.ShapeFill);
 
+
+
     // 設置 name 屬性
     if (name !== '') {
       element.shape.name = name;
@@ -73,7 +75,7 @@ export abstract class ShapeBuilder<T extends Shape> {
 
     if (element.categoriesPlain) element.categoriesPlain.remove();
     if (element.categoriesRect) element.categoriesRect.remove();
-    if (labeled) {
+    if (labeled && this.sd.showLabels) {
       let pos = element.shape.labelPosition(this.sd.categoryOpt.vertical);
       let categoriesPlain = categories.join(', ');
       element.categoriesPlain = this.svg.plain(categoriesPlain).font(12, 'bold');
